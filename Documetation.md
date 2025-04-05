@@ -23,6 +23,25 @@ The MIPS32 processor implemented here follows the classic 5-stage pipeline archi
 
 Each instruction progresses one stage per clock cycle, enabling simultaneous execution of multiple instructions and improving throughput.
 
+The MIPS processor has 32 registers thus the name MIPS32here are all the 32 refisters in the processor with their uses.understanding this will allow us to write better mips code.
+## 🧾 MIPS Register File
+
+| Register No. | Name    | Usage Description                              |
+|--------------|---------|------------------------------------------------|
+| $0           | $zero   | Constant value 0 (hardwired)                   |
+| $1           | $at     | Assembler temporary                            |
+| $2–$3        | $v0–$v1 | Function return values                         |
+| $4–$7        | $a0–$a3 | Arguments to functions                         |
+| $8–$15       | $t0–$t7 | Temporary variables (caller-saved)             |
+| $16–$23      | $s0–$s7 | Saved variables (callee-saved)                 |
+| $24–$25      | $t8–$t9 | More temporary variables (caller-saved)        |
+| $26–$27      | $k0–$k1 | Reserved for OS kernel                         |
+| $28          | $gp     | Global pointer                                 |
+| $29          | $sp     | Stack pointer                                  |
+| $30          | $fp     | Frame pointer                                  |
+| $31          | $ra     | Return address for function calls              |
+
+
 ---
 
 ## 🧠 How the Pipeline Works
@@ -149,6 +168,32 @@ endcase
 | `HLT`  | I-type | 111111 | Halt execution |
 
 ---
+## 🧩 MIPS R-Type Instruction Format
+
+R-type instructions are used for arithmetic and logical operations that involve register operands. The format of a 32-bit R-type instruction is as follows:
+
+31 - 26	25 - 21	20 - 16	15 - 11	10 - 6	5 - 0
+opcode	rs	rt	rd	shamt	funct
+
+
+- **opcode** (6 bits): Operation code (always `000000` for R-type)
+- **rs** (5 bits): Source register 1
+- **rt** (5 bits): Source register 2
+- **rd** (5 bits): Destination register
+- **shamt** (5 bits): Shift amount (used in shift instructions)
+- **funct** (6 bits): Function code that determines the exact operation (e.g., `ADD`, `SUB`, `MUL`, etc.)
+
+### Example: `ADD $t0, $t1, $t2`
+- Adds contents of `$t1` and `$t2` and stores in `$t0`
+- Binary Encoding:
+  - `opcode`: 000000
+  - `rs`: 01001 (for `$t1`)
+  - `rt`: 01010 (for `$t2`)
+  - `rd`: 01000 (for `$t0`)
+  - `shamt`: 00000
+  - `funct`: 100000 (ADD)
+
+This format allows flexibility by using the `funct` field to differentiate instructions under the same `opcode`.
 
 ## 🔪 Simulation
 
