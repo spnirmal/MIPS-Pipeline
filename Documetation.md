@@ -172,9 +172,12 @@ endcase
 
 R-type instructions are used for arithmetic and logical operations that involve register operands. The format of a 32-bit R-type instruction is as follows:
 
-31 - 26	25 - 21	20 - 16	15 - 11	10 - 6	5 - 0
-opcode	rs	rt	rd	shamt	funct
-
+```
+ 31         26 25     21 20     16 15     11 10      6 5        0
++-------------+---------+---------+---------+---------+--------+
+|   opcode    |   rs    |   rt    |   rd    | shamt   | funct  |
++-------------+---------+---------+---------+---------+--------+
+```
 
 - **opcode** (6 bits): Operation code (always `000000` for R-type)
 - **rs** (5 bits): Source register 1
@@ -195,6 +198,29 @@ opcode	rs	rt	rd	shamt	funct
 
 This format allows flexibility by using the `funct` field to differentiate instructions under the same `opcode`.
 
+## 🧮 MIPS I-Type Instruction Format
+
+```
+ 31         26 25     21 20     16 15                         0
++-------------+---------+---------+----------------------------+
+|   opcode    |   rs    |   rt    |       immediate            |
++-------------+---------+---------+----------------------------+
+```
+
+- **opcode (6 bits)**: Specifies the operation (e.g., `ADDI`, `LW`, `SW`)
+- **rs (5 bits)**: Source register
+- **rt (5 bits)**: Destination register (or source in case of `SW`)
+- **immediate (16 bits)**: Constant value or memory offset
+
+### ✅ Example: `ADDI $t0, $t1, 10`
+- Adds `10` to the value in `$t1` and stores the result in `$t0`
+- Fields:
+  - `opcode`: `000001`
+  - `rs`: `$t1` (register 9)
+  - `rt`: `$t0` (register 8)
+  - `immediate`: `0000 0000 0000 1010`
+
+---
 ## 🔪 Simulation
 
 ### Compiling and Running
