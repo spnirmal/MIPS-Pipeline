@@ -57,7 +57,8 @@ This repository contains the Verilog implementation of a 5-stage pipelined MIPS3
 
 - Implement forwarding and hazard handling for advanced scenarios.
 - Add more test cases with complex instruction sequences.
-- Extend support for more MIPS32 instruction types.
+- Instructions must be converted to hex and added to the testbench.
+- Each instruction set currently requires a custom testbench; future versions may directly accept MIPS instructions.
 
 ## License
 
